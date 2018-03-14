@@ -6,7 +6,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "test": "ng test --browsers=\"ChromeHeadless\"",
+    "test": "ng test --browser ChromeHeadless --single-run",
+    "tw": "ng test --browser ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
