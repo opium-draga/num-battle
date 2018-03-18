@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from "@app/core/user/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(protected us: UserService, protected router: Router) {
+  }
 
   ngOnInit() {
   }
 
+  loginFacebook() {
+    this.us.loginFacebook()
+      .then((res) => {
+        console.log(res);
+          this.router.navigate(['/']);
+      }, () => {
+        alert('something went wrong')
+      });
+  }
+
+  loginGoogle() {
+
+  }
 }

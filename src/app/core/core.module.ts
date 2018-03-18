@@ -3,6 +3,11 @@ import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {MaterialModule} from "@app/core/material.module";
+import {AuthGuardService} from "@app/core/auth/auth-guard.service";
+import {UserService} from "@app/core/user/user.service";
+import {environment} from "@env/environment";
+import {AngularFireModule} from "angularfire2";
+import {AngularFireAuthModule} from "angularfire2/auth";
 
 
 @NgModule({
@@ -17,6 +22,8 @@ import {MaterialModule} from "@app/core/material.module";
     ReactiveFormsModule,
 
     // 3rd party
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
 
     // Custom
     MaterialModule,
@@ -31,7 +38,7 @@ import {MaterialModule} from "@app/core/material.module";
     // 3rd party
 
     // Custom
-    MaterialModule,
+    MaterialModule
   ]
 })
 export class CoreModule {
@@ -39,7 +46,8 @@ export class CoreModule {
     return <ModuleWithProviders> {
       ngModule: CoreModule,
       providers: [
-
+        AuthGuardService,
+        UserService
       ]
     };
   }

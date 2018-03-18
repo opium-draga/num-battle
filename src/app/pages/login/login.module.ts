@@ -9,8 +9,9 @@ import {CoreModule} from "@app/core/core.module";
   imports: [
     CommonModule,
     LoginRoutingModule,
-    CoreModule
+    CoreModule,
   ],
+  providers: [],
   declarations: [LoginComponent]
 })
 export class LoginModule {
