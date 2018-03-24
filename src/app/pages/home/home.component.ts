@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {UserService} from "@app/core/user/user.service";
+import {GameService} from "@app/core/services/game/game.service";
 
 @Component({
   selector: 'app-home',
@@ -8,9 +8,12 @@ import {UserService} from "@app/core/user/user.service";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public us: UserService) { }
+  usersAmount = 0;
+
+  constructor(public game: GameService) { }
 
   ngOnInit() {
+    this.game.usersAmount.subscribe(usersAmount => this.usersAmount = usersAmount);
   }
 
 }

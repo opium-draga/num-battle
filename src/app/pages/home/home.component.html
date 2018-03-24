@@ -1,3 +1,6 @@
-<h1>{{us.userDetails.email}} {{us.userDetails.displayName}}</h1>
+<app-header></app-header>
 
-<button mat-raised-button color="primary" (click)="us.logout()">Logout</button>
+<div class="with-header">
+  <h3>Battlers online: <span>{{game.usersAmount | async}}</span></h3>
+</div>
+

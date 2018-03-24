@@ -1,0 +1,6 @@
+<div class="account">
+  <span [style.background-image]="'url(' + us.userDetails?.photoURL + ')'" class="avatar"></span>
+  <h4>{{us.userDetails?.displayName}}</h4>
+</div>
+
+<button mat-raised-button color="warn" (click)="us.logout()">Logout</button>
