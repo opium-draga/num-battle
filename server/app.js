@@ -10,6 +10,7 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 let users = [];
+let gameSearch = [];
 
 io.on('connection', socket => {
   let connectedUser = {
@@ -28,6 +29,25 @@ io.on('connection', socket => {
     console.log(`Disconnected ${socket.id}`);
   });
 
+  socket.on('findGame', () => {
+    if (gameSearch.indexOf(socket.id) !== -1) {return;}
+    gameSearch.push(socket.id);
+    io.emit('queueUpdate', {
+      queueAmount: gameSearch.length
+    });
+    console.log('findGame Update queue: ' + gameSearch.length);
+  });
+
+  socket.on('stopFindGame', () => {
+    let index = gameSearch.indexOf(socket.id);
+    if (index !== -1) {
+     gameSearch.splice(index, 1);
+    }
+    io.emit('queueUpdate', {
+      queueAmount: gameSearch.length
+    });
+    console.log('stopFindGame Update queue: ' + gameSearch.length);
+  });
 });
 
 

@@ -1,0 +1,22 @@
+
+<div *ngIf="gameFound === undefined">
+  <span>Trying to find a game...</span>
+
+  <mat-progress-spinner
+    class="game-find-spinner"
+    [color]="'warn'"
+    [mode]="'indeterminate'"
+    [diameter]="20">
+  </mat-progress-spinner>
+
+  <p><b>In the queue:</b> {{game.queueAmount | async}}</p>
+
+  <button mat-raised-button color="warn" (click)="stopFindGame()">Stop</button>
+</div>
+
+<span *ngIf="gameFound">
+  <span>Game found!</span><mat-icon>check circle</mat-icon>
+</span>
+
+
+

@@ -2,5 +2,8 @@
 
 <div class="with-header">
   <h3>Battlers online: <span>{{game.usersAmount | async}}</span></h3>
+  <button mat-raised-button color="primary" (click)="openFindGamePopup()">
+    Find a game
+  </button>
 </div>
 
