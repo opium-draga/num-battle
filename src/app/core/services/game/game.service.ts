@@ -30,11 +30,6 @@ export class GameService {
    * @returns {Observable<boolean>}
    */
   public findGame() {
-
-    // setTimeout(() => {
-    //   this.findResult.next(true);
-    // }, 2000);
-
     this.socket.emit('findGame');
     return this.findResult;
   }
@@ -59,7 +54,7 @@ export class GameService {
       this.queueAmount.next(res.queueAmount);
     });
 
-    this.socket.on('findGameResult', data => {
+    this.socket.on('gameFound', data => {
       this.findResult.next(true);
     });
   }
