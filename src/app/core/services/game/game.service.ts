@@ -3,23 +3,20 @@ import * as io from 'socket.io-client';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
+import {UserService} from "@app/core/services/user/user.service";
 
 @Injectable()
 export class GameService {
-
   usersAmount = new BehaviorSubject<number>(0);
   queueAmount = new BehaviorSubject<number>(0);
 
   private url = 'http://localhost:3000';
   private socket;
 
-  private findResult: Subject<boolean> = new Subject();
+  private findResult: Subject<any> = new Subject();
 
-  constructor() {
-    let user = JSON.stringify({
-      name: 'Yaroslav',
-      email: 'yaroslav'
-    });
+  constructor(public userService: UserService) {
+    let user = JSON.stringify(userService.user);
 
     this.socket = io(this.url, {query: `user=${user}`});
     this.setEventHandlers();
@@ -33,7 +30,6 @@ export class GameService {
     this.socket.emit('findGame');
     return this.findResult;
   }
-
 
   /**
    * Send event stopFindGame
@@ -55,7 +51,7 @@ export class GameService {
     });
 
     this.socket.on('gameFound', data => {
-      this.findResult.next(true);
+      this.findResult.next(data);
     });
   }
 }

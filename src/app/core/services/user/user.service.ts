@@ -7,11 +7,19 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class UserService {
 
-  public userDetails: firebase.User = null;
+  // TODO: describe model
+  public user;
+
+  private fbUser: firebase.User = null;
 
   constructor(private fireAuth: AngularFireAuth, private router: Router) {
     this.fireAuth.authState.subscribe(user => {
-        this.userDetails = user || null;
+        this.fbUser = user || null;
+        this.user = {
+          name: this.fbUser.displayName,
+          email: this.fbUser.email,
+          // photo: this.fbUser.photoURL
+        };
       }
     );
   }

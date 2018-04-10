@@ -13,6 +13,8 @@ class Game {
     if (this._searchers.indexOf(socket.id) !== -1) {
       return;
     }
+
+    // TODO: should be user model
     this._searchers.push(socket.id);
 
     this._tryCreateRoom();
