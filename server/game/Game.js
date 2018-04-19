@@ -1,12 +1,14 @@
 const Room = require('./Room');
 const _ = require('lodash');
 
+
+
 class Game {
   constructor(io) {
     this.io = io;
 
+    Game.rooms = [];
     this._searchers = [];
-    this._gameRooms = [];
   }
 
   findGame(socket) {
@@ -14,12 +16,12 @@ class Game {
       return;
     }
 
-    // TODO: should be user model
     this._searchers.push(socket.id);
+
+    this._emitQueueUpdate();
 
     this._tryCreateRoom();
 
-    this._emitQueueUpdate();
     console.log('findGame Update queue: ' + this._searchers.length);
   }
 
@@ -30,6 +32,10 @@ class Game {
     }
     this._emitQueueUpdate();
     console.log('stopFindGame Update queue: ' + this._searchers.length);
+  }
+
+  removeSearcher(socket) {
+    this._searchers = this._searchers.filter(searcher => searcher !== socket.id);
   }
 
   _emitQueueUpdate() {
@@ -49,8 +55,9 @@ class Game {
 
       if (playersPair.length === 2) {
         const room = new Room(this.io, _.cloneDeep(playersPair));
-        this._gameRooms.push(room);
+        Game.rooms.push(room);
         playersPair = [];
+        console.log(`Room with id ${room.roomId} is created!`);
       }
     });
   }

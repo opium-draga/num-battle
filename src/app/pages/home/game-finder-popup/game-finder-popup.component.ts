@@ -20,13 +20,16 @@ export class GameFinderPopupComponent implements OnInit {
   ngOnInit() {
     this.game.findGame().subscribe(room => {
       this.gameFound = true;
+
       setTimeout(() => {
+        this.stopFindGame(true);
         this.router.navigate(['/room']);
-      }, 300);
+      }, 3000);
+
     });
   }
 
-  stopFindGame(): void {
-    this.dialogRef.close();
+  stopFindGame(result = false) {
+    this.dialogRef.close(result);
   }
 }

@@ -15,7 +15,10 @@ Game = new Game(io);
 
 io.on('connection', socket => {
   Users.addUser(socket);
-  socket.on('disconnect', () => Users.removeUser(socket));
+  socket.on('disconnect', () => {
+    Users.removeUser(socket);
+    Game.removeSearcher(socket);
+  });
 
   socket.on('findGame', () => Game.findGame(socket));
   socket.on('stopFindGame', () => Game.stopFindGame(socket));

@@ -2,6 +2,7 @@ const {Guid} = require('../utils');
 const Users = require('../user/Users');
 const Player = require('./Player');
 
+
 class Room {
   constructor(io, users) {
     this.io = io;
@@ -21,14 +22,13 @@ class Room {
       this._addPlayer(socket);
 
       socket.on('changePlayerStatus', ready => this._changePlayerStatus(socket, ready));
-
       socket.on('disconnect', () => this._removePlayer(socket));
     });
   }
 
   _addPlayer(socket) {
-    const id = JSON.parse(socket.handshake.query.id);
-    const user = Users.getById(id);
+    debugger;
+    const user = Users.getById(socket.id);
     this.players.push(new Player(socket, user));
     console.log(`Player ${user.model.name} connected to Room ${this.roomId}`);
   }
@@ -69,13 +69,13 @@ class Room {
   }
 
   _emitRoomCreated() {
-    this.users.map((user, index) => {
-      const playerSocket = this.io.sockets.connected[user.socketId];
+    this.users.map((userSocketId, index) => {
+      const playerSocket = this.io.sockets.connected[userSocketId];
       playerSocket.emit('gameFound', {
         gameId: this.roomId,
         namespace: this.ns,
-        current: user,
-        competitor: this.users[+!index] // 1 - 0, 0 - 1
+        current: Users.getById(userSocketId).model,
+        competitor: Users.getById(this.users[+!index]).model
       });
     });
   }

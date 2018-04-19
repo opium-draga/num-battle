@@ -26,7 +26,9 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.game.stopFindGame();
+      if (!result) {
+        this.game.stopFindGame();
+      }
     });
   }
 }

@@ -1,8 +1,10 @@
 const User = require('./User');
+// const Game = require('../game/Game');
 
 class Users {
   constructor(io) {
     this.io = io;
+    Users.users = [];
   }
 
   static getById(id) {
@@ -28,7 +30,5 @@ class Users {
     });
   }
 }
-
-Users.users = [];
 
 module.exports = Users;
