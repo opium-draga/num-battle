@@ -1,5 +1,4 @@
 const User = require('./User');
-// const Game = require('../game/Game');
 
 class Users {
   constructor(io) {
@@ -12,21 +11,20 @@ class Users {
   }
 
   addUser(socket) {
-    const user = new User(socket, JSON.parse(socket.handshake.query.user));
-    Users.users.push(user);
-    console.log(`Connected ${socket.handshake.query.user}`);
-    this._emitUserAmountUpdate();
+    Users.users.push(new User(socket));
+    this._emitOnlineUsersUpdate(socket.id);
   }
 
   removeUser(socket) {
     Users.users = Users.users.filter(user => user.id !== socket.id);
     console.log(`Disconnected ${socket.id}`);
-    this._emitUserAmountUpdate();
+    this._emitOnlineUsersUpdate(socket.id);
   }
 
-  _emitUserAmountUpdate() {
-    this.io.emit('userAmountUpdate', {
-      activeUsersAmount: Users.users.length
+  _emitOnlineUsersUpdate(socketId) {
+    // TODO: don't forget that users which are playing game also receive this update
+    this.io.emit('onlineUsers', {
+      users: Users.users.filter(user => user.socketId !== socketId)
     });
   }
 }

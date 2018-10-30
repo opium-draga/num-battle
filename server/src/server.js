@@ -12,9 +12,9 @@ Users = new Users(io);
 let Game = require('./game/Game');
 Game = new Game(io);
 
-
 io.on('connection', socket => {
   Users.addUser(socket);
+
   socket.on('disconnect', () => {
     Users.removeUser(socket);
     Game.removeSearcher(socket);
@@ -24,7 +24,8 @@ io.on('connection', socket => {
   socket.on('stopFindGame', () => Game.stopFindGame(socket));
 });
 
-
-server.listen(port, () => {
-  console.log(`Server is running on ${port} port :)`);
+// export the server so it can be easily called for testing
+exports.server = server.listen(port, () => {
+  console.log(`Server is running on ${port} port...`);
 });
+

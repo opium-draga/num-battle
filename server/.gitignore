@@ -1,0 +1,5 @@
+.idea
+node_modules
+sh.exe.stackdump
+
+package-lock.json
