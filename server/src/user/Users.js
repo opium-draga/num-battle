@@ -6,8 +6,8 @@ class Users {
     Users.users = [];
   }
 
-  static getById(id) {
-    return Users.users.find(user => user.id === id);
+  static getById(socketId) {
+    return Users.users.find(user => user.id === socketId);
   }
 
   addUser(socket) {
@@ -22,7 +22,6 @@ class Users {
   }
 
   _emitOnlineUsersUpdate(socketId) {
-    // TODO: don't forget that users which are playing game also receive this update
     this.io.emit('onlineUsers', {
       users: Users.users.filter(user => user.socketId !== socketId)
     });

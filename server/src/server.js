@@ -9,23 +9,24 @@ const io = socketIO(server);
 let Users = require('./user/Users');
 Users = new Users(io);
 
-let Game = require('./game/Game');
-Game = new Game(io);
+let Maker = require('./game/Maker');
+Maker = new Maker(io);
 
 io.on('connection', socket => {
   Users.addUser(socket);
 
   socket.on('disconnect', () => {
     Users.removeUser(socket);
-    Game.removeSearcher(socket);
+    Maker.removeSearcher(socket);
   });
 
-  socket.on('findGame', () => Game.findGame(socket));
-  socket.on('stopFindGame', () => Game.stopFindGame(socket));
+  socket.on('startSearch', () => Maker.startSearch(socket));
+  socket.on('stopSearch', () => Maker.stopSearch(socket));
 });
 
 // export the server so it can be easily called for testing
 exports.server = server.listen(port, () => {
   console.log(`Server is running on ${port} port...`);
 });
-
+exports.Maker = Maker;
+exports.Users = Users;
