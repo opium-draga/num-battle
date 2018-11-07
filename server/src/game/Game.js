@@ -1,6 +1,7 @@
 const {Guid} = require('../utils');
 const Users = require('../user/Users');
 const Player = require('./Player');
+const Process = require('./Process');
 
 class Game {
   constructor(io, users) {
@@ -38,6 +39,8 @@ class Game {
 
     // TODO: here should be Game process
     console.log('start game!!!!!!!!!!!!!!');
+
+    let process = new Process(this.io, this.players);
   }
 
   _attachUserToRoom() {
