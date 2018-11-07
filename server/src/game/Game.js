@@ -2,50 +2,20 @@ const {Guid} = require('../utils');
 const Users = require('../user/Users');
 const Player = require('./Player');
 
-
 class Game {
   constructor(io, users) {
     this.io = io;
     this.users = users;
     this.players = [];
-
     this.roomId = Guid();
-    this.ns = `/room-${this.roomId}`;
-    this.nsIO = this.io.of(this.ns);
 
-    this._emitRoomCreated();
-
-    this._initListeners();
+    this._attachUserToRoom();
   }
 
-  _initListeners() {
-    this.nsIO.on('connect', socket => {
-      this._addPlayer(socket);
+  _initPlayerListeners(socket) {
+    this.players.push(new Player(socket));
 
-      socket.on('changePlayerStatus', ready => this._changePlayerStatus(socket, ready));
-      socket.on('disconnect', () => this._removePlayer(socket));
-    });
-  }
-
-  _addPlayer(socket) {
-    const user = Users.getById(socket.id);
-    this.players.push(new Player(socket, user));
-    console.log(`Player ${user.model.name} connected to Room ${this.roomId}`);
-  }
-
-  _removePlayer(socket) {
-    this.players = this.players.filter(player => player.id === socket.id);
-    if (!this.players.length) {
-      this._destroyRoom();
-    }
-  }
-
-  _destroyRoom() {
-    Object.keys(this.nsIO).forEach(socketId => {
-      this.nsIO.connected[socketId].disconnect();
-    });
-    this.nsIO.removeAllListeners();
-    delete this.io.nsps[this.ns];
+    socket.on('changePlayerStatus', ready => this._changePlayerStatus(socket, ready));
   }
 
   _changePlayerStatus(socket, status) {
@@ -55,27 +25,30 @@ class Game {
       }
     });
 
-    socket.broadcast.emit('updateCompetitorStatus', {status});
+    socket.to(this.roomId).emit('updateCompetitorStatus', {status});
 
-    if (this.players.every(player => player.ready)) {
-      this._startGame();
-    }
+    this._startGame();
   }
 
   _startGame() {
-    // TODO: start from here
+    if (this.players.some(player => !player.ready)) {
+      console.log('Not all players are ready');
+      return;
+    }
 
-    console.log('start game');
+    // TODO: here should be Game process
+    console.log('start game!!!!!!!!!!!!!!');
   }
 
-  _emitRoomCreated() {
+  _attachUserToRoom() {
     this.users.map((userSocketId, index) => {
       const playerSocket = this.io.sockets.connected[userSocketId];
 
+      playerSocket.join(this.roomId);
+      this._initPlayerListeners(playerSocket);
+
       playerSocket.emit('gameFound', {
-        gameId: this.roomId,
-        namespace: this.ns,
-        current: Users.getById(userSocketId),
+        roomId: this.roomId,
         competitor: Users.getById(this.users[+!index])
       });
     });

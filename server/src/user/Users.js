@@ -17,7 +17,6 @@ class Users {
 
   removeUser(socket) {
     Users.users = Users.users.filter(user => user.id !== socket.id);
-    console.log(`Disconnected ${socket.id}`);
     this._emitOnlineUsersUpdate(socket.id);
   }
 

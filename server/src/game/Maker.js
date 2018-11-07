@@ -4,13 +4,7 @@ const _ = require('lodash');
 class Maker {
   constructor(io) {
     this.io = io;
-
     Maker.games = [];
-
-    /**
-     * @type {Array} with Socket id of Users
-     * @private
-     */
     this._searchers = [];
   }
 
@@ -49,7 +43,6 @@ class Maker {
         const game = new Game(this.io, _.cloneDeep(playersPair));
         Maker.games.push(game);
         playersPair = [];
-        console.log(`Room with id ${game.roomId} is created!`);
       }
     });
   }

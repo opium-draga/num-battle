@@ -1,13 +1,9 @@
+const User = require('../user/User');
 
-class Player {
-  constructor(nsSocket, user) {
-    this.user = user;
-    this.nsSocket = nsSocket;
+class Player extends User {
+  constructor(socket) {
+    super(socket);
     this.ready = false;
-  }
-
-  get id() {
-    return this.nsSocket.id;
   }
 }
 

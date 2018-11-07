@@ -1,6 +1,7 @@
 var app = require('../../src/server'),
   ioClient = require('socket.io-client'),
-  ioOptions = {transports: ['websocket'], forceNew: true, reconnection: false};
+  Maker = require('../../src/game/Maker'),
+  ioOptions = {transports: ['websocket'], forceNew: true};
 
 afterAll(() => {
   app.server.close();
@@ -28,10 +29,11 @@ describe('Add and remove user from queue', () => {
   });
 });
 
-
-describe('Find and create Game', () => {
+describe('Find, create and start game', () => {
   let firstClient = ioClient('http://localhost:3000/?name=First client', ioOptions),
-    secondClient = ioClient('http://localhost:3000/?name=Second client', ioOptions);
+    secondClient = ioClient('http://localhost:3000/?name=Second client', ioOptions),
+    roomId,
+    activeGame;
 
   test('Test create Game', done => {
     setTimeout(() => {
@@ -41,14 +43,40 @@ describe('Find and create Game', () => {
 
     firstClient.on('gameFound', res => {
       expect(res).toBeDefined();
-      expect(typeof res.gameId).toBe('string');
-      expect(res.namespace).toBe(`/room-${res.gameId}`);
-      expect(res.current.socketId).toBe(firstClient.id);
+      expect(typeof res.roomId).toBe('string');
       expect(res.competitor.socketId).toBe(secondClient.id);
+
+      // check if Game can be found by roomId
+      activeGame = Maker.games.find(game => game.roomId === res.roomId);
+      expect(activeGame.roomId).toBe(res.roomId);
+      expect(activeGame.players.length).toBe(2);
+
+      roomId = res.roomId;
 
       done();
     });
+  });
 
-    //TODO: test creating of namespace
+  test('Test change player status', done => {
+    secondClient.on('updateCompetitorStatus', res => {
+      expect(res).toBeDefined();
+      expect(res.status).toBeTruthy();
+      done();
+    });
+
+    firstClient.emit('changePlayerStatus', true);
+  });
+
+  test('Test start game', done => {
+    firstClient.emit('changePlayerStatus', true);
+    secondClient.emit('changePlayerStatus', true);
+
+    setTimeout(() => {
+      activeGame.players.forEach(player => {
+        expect(player.ready).toBeTruthy();
+      });
+
+      done();
+    }, 100);
   });
 });

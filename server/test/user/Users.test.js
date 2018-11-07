@@ -2,7 +2,6 @@ var app = require('../../src/server'),
   ioClient = require('socket.io-client'),
   ioOptions = {transports: ['websocket'], forceNew: true, reconnection: false};
 
-
 afterAll(() => {
   app.server.close();
 });
