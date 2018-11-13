@@ -9,6 +9,9 @@ class Game {
     this.users = users;
     this.players = [];
     this.roomId = Guid();
+    this.isStarted = false;
+
+    this.process = null;
 
     this._attachUserToRoom();
   }
@@ -37,10 +40,12 @@ class Game {
       return;
     }
 
-    // TODO: here should be Game process
-    console.log('start game!!!!!!!!!!!!!!');
+    this.isStarted = true;
 
-    let process = new Process(this.io, this.players);
+    this.process = new Process(this.io, this.players);
+    this.process.run();
+
+    console.log('Game is started!');
   }
 
   _attachUserToRoom() {
