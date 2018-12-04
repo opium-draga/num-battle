@@ -1,14 +1,19 @@
 const User = require('../user/User');
 
 class Player extends User {
-  constructor(socket) {
+  constructor(socket, roomId) {
     super(socket);
     this.ready = false;
-
-    /**
-     * Task index -> True/False answer
-     */
+    this.roomId = roomId;
     this.tasksAnswers = [];
+  }
+
+  /**
+   * @param answer Contains player correctAnswer for single task
+   * @param answer {{index:number, correctAnswer: string, isAnswerCorrect: boolean, playerAnswer: string}}
+   */
+  markAnswer(answer) {
+    this.tasksAnswers[answer.index] = answer;
   }
 }
 

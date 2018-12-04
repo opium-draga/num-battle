@@ -4,9 +4,9 @@ const Player = require('./Player');
 const Process = require('./Process');
 
 class Game {
-  constructor(io, users) {
+  constructor(io, playersSocketIds) {
     this.io = io;
-    this.users = users;
+    this.playersSocketIds = playersSocketIds;
     this.players = [];
     this.roomId = Guid();
     this.isStarted = false;
@@ -16,8 +16,8 @@ class Game {
     this._attachUserToRoom();
   }
 
-  _initPlayerListeners(socket) {
-    this.players.push(new Player(socket));
+  _initListeners(socket) {
+    this.players.push(new Player(socket, this.roomId));
 
     socket.on('changePlayerStatus', ready => this._changePlayerStatus(socket, ready));
   }
@@ -49,15 +49,15 @@ class Game {
   }
 
   _attachUserToRoom() {
-    this.users.map((userSocketId, index) => {
-      const playerSocket = this.io.sockets.connected[userSocketId];
+    this.playersSocketIds.forEach((playerSocketId, index) => {
+      const playerSocket = this.io.sockets.connected[playerSocketId];
 
       playerSocket.join(this.roomId);
-      this._initPlayerListeners(playerSocket);
+      this._initListeners(playerSocket);
 
       playerSocket.emit('gameFound', {
         roomId: this.roomId,
-        competitor: Users.getById(this.users[+!index])
+        competitor: Users.getById(this.playersSocketIds[+!index])
       });
     });
   }

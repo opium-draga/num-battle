@@ -6,7 +6,7 @@ class Task {
      */
     this.complexity = complexity || 0;
     this.question = '';
-    this.answer = '';
+    this.correctAnswer = '';
 
     this._generate();
   }

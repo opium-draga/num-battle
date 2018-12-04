@@ -40,7 +40,7 @@ class Maker {
       playersPair.push(player);
 
       if (playersPair.length === 2) {
-        const game = new Game(this.io, _.cloneDeep(playersPair));
+        const game = new Game(this.io, _.clone(playersPair));
         Maker.games.push(game);
         playersPair = [];
       }
