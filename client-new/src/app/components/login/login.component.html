@@ -1,0 +1,32 @@
+<div class="login-container">
+  <h1>Who is the best Num battler?</h1>
+  <p class="description">
+    <span><mat-icon color="primary">pan_tool</mat-icon> Enter Your name</span>
+    <span><mat-icon color="primary">rowing</mat-icon> Find a competitor</span>
+    <span><mat-icon color="primary">accessibility_new</mat-icon> Win the battle!</span>
+  </p>
+
+  <div class="form">
+    <div class="form-row">
+      <mat-form-field>
+        <input matInput placeholder="What is Your name?" [formControl]="userNameFormControl">
+        <mat-error *ngIf="userNameFormControl.hasError('minlength')">
+          Minimum is 3 letters
+        </mat-error>
+        <mat-error *ngIf="userNameFormControl.hasError('maxlength')">
+          Maximum is 15 letters
+        </mat-error>
+        <mat-error *ngIf="userNameFormControl.hasError('required')">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <button [disabled]="!userNameFormControl.valid" (click)="searchGame()" mat-raised-button color="primary">
+        <mat-icon>play_arrow</mat-icon>
+        Lets battle!
+      </button>
+    </div>
+  </div>
+</div>

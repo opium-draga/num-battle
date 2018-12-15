@@ -16,10 +16,10 @@ export class GameService {
   private findResult: Subject<any> = new Subject();
 
   constructor(public userService: UserService) {
-    let user = JSON.stringify(userService.user);
-
-    this.socket = io(this.url, {query: `user=${user}`});
-    this.setEventHandlers();
+    // let user = JSON.stringify(userService.user);
+    //
+    // this.socket = io(this.url, {query: `user=${user}`});
+    // this.setEventHandlers();
   }
 
   /**

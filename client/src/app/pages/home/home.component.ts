@@ -1,34 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import {GameService} from "@app/core/services/game/game.service";
 import {MatDialog} from "@angular/material";
-import {GameFinderPopupComponent} from "@app/pages/home/game-finder-popup/game-finder-popup.component";
+// import {GameFinderPopupComponent} from "@app/pages/home/game-finder-popup/game-finder-popup.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent  {
 
-  usersAmount = 0;
+  // usersAmount = 0;
+  //
+  // constructor(public game: GameService,
+  //             public dialog: MatDialog) { }
+  //
+  // ngOnInit() {
+  //   this.game.usersAmount
+  //     .subscribe(usersAmount => this.usersAmount = usersAmount);
+  // }
 
-  constructor(public game: GameService,
-              public dialog: MatDialog) { }
-
-  ngOnInit() {
-    this.game.usersAmount
-      .subscribe(usersAmount => this.usersAmount = usersAmount);
-  }
-
-  openFindGamePopup() {
-    let dialogRef = this.dialog.open(GameFinderPopupComponent, {
-      width: '400px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) {
-        this.game.stopFindGame();
-      }
-    });
-  }
+  // openFindGamePopup() {
+  //   let dialogRef = this.dialog.open(GameFinderPopupComponent, {
+  //     width: '400px'
+  //   });
+  //
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (!result) {
+  //       this.game.stopFindGame();
+  //     }
+  //   });
+  // }
 }
