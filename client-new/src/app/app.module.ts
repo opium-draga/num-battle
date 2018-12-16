@@ -2,17 +2,20 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {LoginComponent} from './components/login/login.component';
 import {GameComponent} from './components/game/game.component';
 import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './modules/material.module';
+import {GameFinderPopupComponent} from './components/game-finder-popup/game-finder-popup.component';
+import {CookieService} from 'ngx-cookie-service';
+import {HomeComponent} from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    HomeComponent,
     GameComponent,
+    GameFinderPopupComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +27,12 @@ import {MaterialModule} from './modules/material.module';
   exports: [
     FormsModule,
   ],
-  providers: [],
+  entryComponents: [
+    GameFinderPopupComponent
+  ],
+  providers: [
+    CookieService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

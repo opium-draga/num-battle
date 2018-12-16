@@ -1,0 +1,24 @@
+<div *ngIf="searchResult === undefined && !connectionError">
+  <span>We are trying to find a competitor...</span>
+
+  <mat-progress-spinner
+    class="inline-block"
+    [color]="'warn'"
+    [mode]="'indeterminate'"
+    [diameter]="20">
+  </mat-progress-spinner>
+
+  <button mat-raised-button color="warn" (click)="stopSearch()">Stop</button>
+</div>
+
+<p *ngIf="searchResult">
+  The Battle begins in 3 second!
+  <mat-icon color="primary">check circle</mat-icon>
+</p>
+
+<p *ngIf="connectionError">
+  Connection failed!
+  <mat-icon color="warn">warning</mat-icon>
+</p>
+
+

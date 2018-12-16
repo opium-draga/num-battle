@@ -13,6 +13,8 @@ class Game {
 
     this.process = null;
 
+    console.log(`Game created!`);
+
     this._attachUserToRoom();
   }
 

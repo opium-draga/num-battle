@@ -1,0 +1,19 @@
+div {
+  text-align: center;
+
+  & > button {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 120px;
+  }
+}
+
+p {
+  text-align: center;
+
+  mat-icon {
+    position: relative;
+    top: 4px;
+  }
+}

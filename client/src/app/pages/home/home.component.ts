@@ -10,25 +10,25 @@ import {MatDialog} from "@angular/material";
 })
 export class HomeComponent  {
 
-  // usersAmount = 0;
-  //
-  // constructor(public game: GameService,
-  //             public dialog: MatDialog) { }
-  //
-  // ngOnInit() {
-  //   this.game.usersAmount
-  //     .subscribe(usersAmount => this.usersAmount = usersAmount);
-  // }
+  usersAmount = 0;
 
-  // openFindGamePopup() {
-  //   let dialogRef = this.dialog.open(GameFinderPopupComponent, {
-  //     width: '400px'
-  //   });
-  //
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (!result) {
-  //       this.game.stopFindGame();
-  //     }
-  //   });
-  // }
+  constructor(public game: GameService,
+              public dialog: MatDialog) { }
+
+  ngOnInit() {
+    this.game.usersAmount
+      .subscribe(usersAmount => this.usersAmount = usersAmount);
+  }
+
+  openFindGamePopup() {
+    let dialogRef = this.dialog.open(GameFinderPopupComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        this.game.stopFindGame();
+      }
+    });
+  }
 }

@@ -9,7 +9,8 @@
   <div class="form">
     <div class="form-row">
       <mat-form-field>
-        <input matInput placeholder="What is Your name?" [formControl]="userNameFormControl">
+        <input matInput placeholder="What is Your name?"
+               [formControl]="userNameFormControl">
         <mat-error *ngIf="userNameFormControl.hasError('minlength')">
           Minimum is 3 letters
         </mat-error>
@@ -23,10 +24,12 @@
     </div>
 
     <div class="form-row">
-      <button [disabled]="!userNameFormControl.valid" (click)="searchGame()" mat-raised-button color="primary">
+      <button [disabled]="!userNameFormControl.valid"
+              (click)="searchGame()" mat-raised-button color="primary">
         <mat-icon>play_arrow</mat-icon>
         Lets battle!
       </button>
     </div>
+
   </div>
 </div>

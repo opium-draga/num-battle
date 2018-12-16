@@ -7,4 +7,13 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.inline-block {
+  display: inline-block !important;
+}
+
+.mat-dialog-container {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";

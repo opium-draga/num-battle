@@ -14,20 +14,16 @@ class Maker {
     }
 
     this._searchers.push(socket.id);
+
+    console.log(`${socket.handshake.query.name} added to queue, socket id: ${socket.id}`);
+
     this._tryCreateGame();
-  }
-
-  stopSearch(socket) {
-    let index = this._searchers.indexOf(socket.id);
-    if (index !== -1) {
-      this._searchers.splice(index, 1);
-    }
-
-    console.log('stopSearch Update queue: ' + this._searchers.length);
   }
 
   removeSearcher(socket) {
     this._searchers = this._searchers.filter(searcher => searcher !== socket.id);
+
+    console.log(`${socket.handshake.query.name} removed from queue, socket id: ${socket.id}`);
   }
 
   _tryCreateGame() {

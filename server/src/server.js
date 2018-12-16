@@ -21,7 +21,7 @@ io.on('connection', socket => {
   });
 
   socket.on('startSearch', () => Maker.startSearch(socket));
-  socket.on('stopSearch', () => Maker.stopSearch(socket));
+  socket.on('stopSearch', () => Maker.removeSearcher(socket));
 });
 
 // export the server so it can be easily called for testing
